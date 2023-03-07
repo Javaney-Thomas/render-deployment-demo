@@ -15,9 +15,9 @@ const pool = dbConn.getPool();
 
 
   
-app.get('/pets', (req, res, next) => {
-    // Get allllll the rows in pets table
-    pool.query('SELECT * FROM pets', (err, result) => {
+app.get('/onepiece', (req, res, next) => {
+    // Get all the rows in onepiece table
+    pool.query('SELECT * FROM onepiece', (err, result) => {
       if (err){
         return next(err);
       }

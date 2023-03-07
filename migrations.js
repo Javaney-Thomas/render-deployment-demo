@@ -12,15 +12,15 @@ function runMigrations(pool, callback){
             return done();
         }
         // run migration SQL
-        pool.query(`CREATE TABLE IF NOT EXISTS pets (
+        pool.query(`CREATE TABLE IF NOT EXISTS onepiece (
             id SERIAL PRIMARY KEY,
-            kind text,
+            devilfruit text,
             name text,
             age INTEGER)`, (err, data) => {
                 if (err){
-                    console.log("CREATE TABLE pets failed");
+                    console.log("CREATE TABLE onepiece failed");
                 } else {
-                    console.log("pets table created sucessfully");
+                    console.log("onepiece table created sucessfully");
                 }
                 // tell pg we are done with this connection, then execute callback to close it
                 done();

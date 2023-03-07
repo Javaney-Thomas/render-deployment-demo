@@ -12,14 +12,14 @@ function runSeeder(pool, callback){
             return done();
         }
         // run seed SQL
-        pool.query(`SELECT COUNT(*) FROM pets`, (err, data) => {
+        pool.query(`SELECT COUNT(*) FROM onepiece`, (err, data) => {
             console.log("number of existing rows: ", data.rows[0]['count']);
             // only INSERT new rows if the table is currently empty
             if (data.rows[0]['count'] == 0){
-                pool.query(`INSERT INTO pets (name, kind, age) VALUES 
-                ('Fido', 'Labradoodle', 5),
-                ('Skippy', 'Greyhound', 7),
-                ('Rollo', 'Golden Retriever', 5)`, 
+                pool.query(`INSERT INTO onepiece (name, devilfruit, age) VALUES 
+                ('Luffy', 'Gummyfruit', 19),
+                ('Robin', 'Flowerfruit', 30),
+                ('Ace', 'Flamefruit', 20)`, 
                 (err, data) => {
                     if (err){
                         console.log("Insert failed");

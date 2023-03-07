@@ -72,24 +72,70 @@ app.post('/api/onepiece', (req, res, next) => {
     });
 
   } else {
-    return res.status(400).send("Unable to create pirate from request body");
+    return res.status(400).send("Unable to create pirates from request body");
   }
 
 });
 
 //Now this section is the patch of CRUD
+app.patch('/api/onepiece/:id', (req, res, next) => {
+  // parse id from URL
+  const id = Number.parseInt(req.params.id);
+  // get data from request body
+  const age = Number.parseInt(req.body.age);
+  const {name, devilfruit} = req.body;
+  // if id input is ok, make DB call to get existing values
+  if (!Number.isInteger(id)){
+    res.status(400).send("No pirates found with that ID");
+  }
+  console.log("Pirates: ", id);
+  // get current values of the pet with that id from our DB
+  pool.query('SELECT * FROM onepiece WHERE id = $1', [id], (err, result) => {
+    if (err){
+      return next(err);
+    }
+    console.log("request body name, devilfruit, age: ", name, devilfruit, age);
+    const pirates = result.rows[0];
+    console.log("Single pirates ID from DB", id, "values:", pirates);
+    if (!pirates){
+      return res.status(404).send("No pirate found with that ID");
+    } else {
+      // check which values are in the request body, otherwise use the previous pet values
+      // let updatedName = null; 
+      const updatedName = name || pirates.name; 
 
+      //longer version
+      // if (name){
+      //   updatedName = name;
+      // } else {
+      //   updatedName = ship.name;
+      // }
 
+      const updatedDevilfruit = devilfruit || pirates.devilfruit;
+      const updatedAge = age || pirates.age;
 
+      pool.query('UPDATE ships SET name=$1, kind=$2, manufacturer=$3 WHERE id = $4 RETURNING *', 
+          [updatedName, updatedType, updatedManufacturer, id], (err, data) => {
 
-
-
-
-
-
+        if (err){
+          return next(err);
+        }
+        const updatedShip = data.rows[0];
+        console.log("updated row:", updatedShip);
+        return res.send(updatedShip);
+      });
+    }
+  });
+});
 
 
 //This is DELETE of CRUD
+app.delete('/api/onepiece/:id', (req, res, next) => {
+  
+
+})
+
+
 
 app.listen(port, () => {
     // eslint-disable-next-line no-console

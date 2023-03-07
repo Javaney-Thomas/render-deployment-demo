@@ -114,15 +114,15 @@ app.patch('/api/onepiece/:id', (req, res, next) => {
       const updatedDevilfruit = devilfruit || pirates.devilfruit;
       const updatedAge = age || pirates.age;
 
-      pool.query('UPDATE ships SET name=$1, kind=$2, manufacturer=$3 WHERE id = $4 RETURNING *', 
+      pool.query('UPDATE pirates SET name=$1, kind=$2, manufacturer=$3 WHERE id = $4 RETURNING *', 
           [updatedName, updatedType, updatedManufacturer, id], (err, data) => {
 
         if (err){
           return next(err);
         }
-        const updatedShip = data.rows[0];
-        console.log("updated row:", updatedShip);
-        return res.send(updatedShip);
+        const updatedPirate = data.rows[0];
+        console.log("updated row:", updatedPirate);
+        return res.send(updatedPirate);
       });
     }
   });
@@ -131,9 +131,25 @@ app.patch('/api/onepiece/:id', (req, res, next) => {
 
 //This is DELETE of CRUD
 app.delete('/api/onepiece/:id', (req, res, next) => {
-  
+  const id = Number.parseInt(req.params.id);
+  if (!Number.isInteger(id)){
+    return res.status(400).send("No pirate found with that ID");
+  }
 
-})
+  pool.query('DELETE FROM onepiece WHERE id = $1 RETURNING *', [id], (err, data) => {
+    if (err){
+      return next(err);
+    }
+    const deletedPirate = data.rows[0];
+    console.log(deletedPirate);
+    if (deletedPirate){
+      // respond with deleted row
+      res.send(deletedPirate);
+    } else {
+      res.status(404).send("No pirate found with that ID");
+    }
+  });
+});
 
 
 

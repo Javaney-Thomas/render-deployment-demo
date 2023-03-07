@@ -1,5 +1,5 @@
 'use strict';
-
+//EXPRESS allows us to deploy the website 
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -30,12 +30,12 @@ app.get('/api/onepiece', (req, res, next) => {
 
 //NOW CREATE A GET REQUEST FOR ONE ELEMENT OUT YOUR TABLE MY GUY
 app.get('/api/onepiece/:id', (req, res, next) => {
-  // Get a single person from the table
+  // Get a single pirate from the table
   let id = Number.parseInt(req.params.id);
   if (!Number.isInteger(id)){
-    res.status(404).send("No person found with that ID");
+    res.status(404).send("No pirate found with that ID");
   }
-  console.log("person ID: ", id);
+  console.log("pirate ID: ", id);
 
   pool.query('SELECT * FROM onepiece WHERE id = $1', [id], (err, result) => {
     if (err){
@@ -52,7 +52,44 @@ app.get('/api/onepiece/:id', (req, res, next) => {
   });
 });
 
+//POST SECTION is teh CREATE PART OF CRUD we are adding data
+//THE GET REQS WERE THE READ, this is due to using pool query
 
+app.post('/api/onepiece', (req, res, next) => {
+  const age = Number.parseInt(req.body.age);
+  const {name, devilfruit} = req.body;//these are strings thats y we set them apart in the body request
+  console.log("Request body name, devilfruit, age", name, devilfruit, age);
+  // check request data - if everything exists and id is a number
+  if (name && devilfruit && age){
+    pool.query('INSERT INTO onepiece (name, devilfruit, age) VALUES ($1, $2, $3) RETURNING *', [name, devilfruit, age], (err, data) => {
+      const pirates = data.rows[0];
+      console.log("Pirates: ", pirates);
+      if (pirates){
+        return res.send(pirates);
+      } else {
+        return next(err);
+      }
+    });
+
+  } else {
+    return res.status(400).send("Unable to create pirate from request body");
+  }
+
+});
+
+//Now this section is the patch of CRUD
+
+
+
+
+
+
+
+
+
+
+
+//This is DELETE of CRUD
 
 app.listen(port, () => {
     // eslint-disable-next-line no-console

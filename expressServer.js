@@ -1,5 +1,5 @@
 'use strict';
-//EXPRESS allows us to deploy the website 
+//EXPRESS allows us to set up a webserver with nodejs
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -15,9 +15,9 @@ const pool = dbConn.getPool();
 
 
   
-app.get('/api/onepiece', (req, res, next) => {
+app.get('/api/onepiece', (req, res, next) => {//next tells us that we will use additonal middleware
     // Get all the rows in onepiece table
-    pool.query('SELECT * FROM onepiece', (err, result) => {
+    pool.query('SELECT * FROM onepiece', (err, result) => {//async callback
       if (err){
         return next(err);
       }
@@ -29,7 +29,7 @@ app.get('/api/onepiece', (req, res, next) => {
 });
 
 //NOW CREATE A GET REQUEST FOR ONE ELEMENT OUT YOUR TABLE MY GUY
-app.get('/api/onepiece/:id', (req, res, next) => {
+app.get('/api/onepiece/:id', (req, res, next) => {//pool is basically a pipeline tht connects us to our pg DB
   // Get a single pirate from the table
   let id = Number.parseInt(req.params.id);
   if (!Number.isInteger(id)){

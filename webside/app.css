@@ -8,9 +8,39 @@ body{
   margin: auto; 
 }
 
+.banner{
+  display: flex;
+  
+  background: black;
+  opacity: 70%;
+  color: grey;
+  margin-top: 0px;
+  padding: 5px;
+}
+
+.menu{
+  display: flex;
+  color: rgb(214, 110, 110);
+  padding: 5px;
+
+}
+
+
+
+
+
+
+
  #header {
+  display: flex;
+  margin: auto;
+  padding: 100px;
+  opacity: 70%;
   width : 930px;
   font-size: xx-large;
+  font-style: italic;
+  color: red;
+
 }
 
 #main {
@@ -25,7 +55,7 @@ body{
     margin: 10px;
 }
 
-#display {
+/* #display {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border-radius: 10px;
 
@@ -42,8 +72,6 @@ body{
     padding: 20px;
 
     width: 796px;
-
-    background-color: red;
     
     opacity: 10;
 
@@ -53,7 +81,7 @@ body{
 
     margin: 10px;
 
-}
+} */
 
 #results {
   width: 450px;
